@@ -1,0 +1,167 @@
+--[[
+#=====================================================================================
+#                               ArcoLinuxD
+#
+# Author  : Erik Dubois at http://www.erikdubois.be
+# License : Distributed under the terms of GNU GPL version 2 or later
+# Documentation : http://erikdubois.be/category/linux/aureola/
+#======================================================================================
+
+
+]]
+
+conky.config = {
+
+	--Various settings
+
+	background = true, 							-- forked to background
+	cpu_avg_samples = 2,						-- The number of samples to average for CPU monitoring.
+	diskio_avg_samples = 10,					-- The number of samples to average for disk I/O monitoring.
+	double_buffer = true,						-- Use the Xdbe extension? (eliminates flicker)
+	if_up_strictness = 'address',				-- how strict if testing interface is up - up, link or address
+	net_avg_samples = 2,						-- The number of samples to average for net data
+	no_buffers = true,							-- Subtract (file system) buffers from used memory?
+	temperature_unit = 'celsius',				-- fahrenheit or celsius
+	text_buffer_size = 2048,					-- size of buffer for display of content of large variables - default 256
+	update_interval = 1,						-- update interval
+	imlib_cache_size = 0,                       -- disable image cache to get a new spotify cover per song
+
+	--Placement
+
+	alignment = 'middle_right',					-- top-left,top-middle,top-right,bottom-left,bottom-middle,bottom-right,
+												-- middle-left,middle-middle,middle-right,none
+	--Arch Duoscreen
+	--gap_x = -1910,
+	gap_x = 10,									-- pixels between right or left border
+	gap_y = 0,									-- pixels between bottom or left border
+	minimum_height = 200,						-- minimum height of window
+	minimum_width = 280,						-- minimum height of window
+	maximum_width = 340,						-- maximum height of window
+
+	--Graphical
+
+	border_inner_margin = 5, 					-- margin between border and text
+	border_outer_margin = 5, 					-- margin between border and edge of window
+	border_width = 0, 							-- border width in pixels
+	default_bar_width = 280,					-- default is 0 - full width
+	default_bar_height = 10,					-- default is 6
+	default_gauge_height = 25,					-- default is 25
+	default_gauge_width =40,					-- default is 40
+	default_graph_height = 35,					-- default is 25
+	default_graph_width = 153,					-- default is 0 - full width
+	default_shade_color = '#000000',			-- default shading colour
+	default_outline_color = '#000000',			-- default outline colour
+	draw_borders = false,						-- draw borders around text
+	draw_graph_borders = true,					-- draw borders around graphs
+	draw_shades = false,						-- draw shades
+	draw_outline = false,						-- draw outline
+	stippled_borders = 0,						-- dashing the border
+
+	--Textual
+
+	extra_newline = false,						-- extra newline at the end - for asesome's wiboxes
+	format_human_readable = true,				-- KiB, MiB rather then number of bytes
+	font = 'Noto Mono:size=11:regular',  			-- font for complete conky unless in code defined
+	max_text_width = 0,							-- 0 will make sure line does not get broken if width too smal
+	max_user_text = 16384,						-- max text in conky default 16384
+	override_utf8_locale = true,				-- force UTF8 requires xft
+	short_units = true,							-- shorten units from KiB to k
+	top_name_width = 21,						-- width for $top name value default 15
+	top_name_verbose = false,					-- If true, top name shows the full command line of  each  process - Default value is false.
+	uppercase = false,							-- uppercase or not
+	use_spacer = 'none',						-- adds spaces around certain objects to align - default none
+	use_xft = true,								-- xft font - anti-aliased font
+	xftalpha = 1,								-- alpha of the xft font - between 0-1
+
+	--Windows
+
+	own_window = true,							-- create your own window to draw
+	own_window_argb_value = 150,				    -- real transparency - composite manager required 0-255
+	own_window_argb_visual = true,				-- use ARGB - composite manager required
+	own_window_class = 'Conky',					-- manually set the WM_CLASS name for use with xprop
+	own_window_colour = '#000000',				-- set colour if own_window_transparent no
+	own_window_hints = 'undecorated,below,above,sticky,skip_taskbar,skip_pager',  -- if own_window true - just hints - own_window_type sets it
+	own_window_transparent = false,				-- if own_window_argb_visual is true sets background opacity 0%
+	own_window_title = 'system_conky',			-- set the name manually  - default conky "hostname"
+	own_window_type = 'override',				    -- if own_window true options are: normal/override/dock/desktop/panel
+
+
+	--Colours
+
+	default_color = '#D300C4',  				-- default color and border color
+	color1 = '#d300c4',
+	color2 = '#0ABDC6',
+	color3 = '#cccccc',
+	color4 = '#BDBDBD',
+	color5 = '#66ff00',
+	color6 = '#aa0000',
+
+	--Signal Colours
+	color7 = '#1F7411',  						--green
+	color8 = '#FFA726',  						--orange
+	color9 = '#F1544B',  						--firebrick
+
+
+	--Lua
+
+
+};
+conky.text = [[
+${color1}${alignc}${font Cantarell:size=18}M K D E W 3 7 @ P O R T${color}${font}
+
+${color2}${voffset 4}${font Cantarell:size=36}${alignc}${time %H}:${time %M}:${time %S} ${time %p}${font}${color}
+${color2}${voffset 4}${font Cantarell:size=14}${alignc}${time %A}, ${time %e} ${time %B}, ${time %Y}${font}${color}
+
+${color5}${font Cantarell:size=14}${voffset 2}S Y S T E M   ${hr 2}${font}${color}
+${color2}${voffset 8}${font Cantarell:size=12}Hostname:${color}${alignr}${nodename}
+${color2}Distro:${color}${alignr}$sysname $kernel ${alignr}${execi 6000 lsb_release -a | grep 'Release'|awk {'print $2""$3""$4""$5'}}
+${color2}Kernel:${color}${alignr}${exec uname} ${exec uname -r}
+#${color2}Nvidia: ${color}${alignr}${execp  nvidia-smi --query-supported-clocks=gpu_name --format=csv,noheader}
+#${color2}Nvidia Driver: ${color}${alignr}${execi 60000 nvidia-smi | grep "Driver Version"| awk {'print $3'}}
+${color2}Uptime:${color} ${alignr}${uptime}${font}
+
+${color5}${font Cantarell:size=14}P R O C E S S O R S  ${hr 2}${font}${color}
+
+### CPU
+#
+${font Cantarell:size=12}${color2}CPU: ${color} ${alignr}${execi 300 grep -i 'Model name' /proc/cpuinfo | grep 'model name' | sed -e 's/model name.*: //'| uniq | cut -c 1-18} @ ${color}${freq_g} GHz$color${font}
+${color1}$color
+${color2}CORES: ${color} 
+
+Core 0   ${color1}${execi 30 sensors | grep 'Core 0:' | cut -c17-18}°C${color}  @  ${cpu cpu1} % $alignr ${color}${cpubar 6, 155 cpu1}${color}
+Core 1   ${color1}${execi 30 sensors | grep 'Core 1:' | cut -c17-18}°C${color}  @  ${cpu cpu2} % $alignr ${color}${cpubar 6, 155 cpu2}${color}
+Core 2   ${color1}${execi 30 sensors | grep 'Core 2:' | cut -c17-18}°C${color}  @  ${cpu cpu3} % $alignr ${color}${cpubar 6, 155 cpu3}${color}
+Core 3   ${color1}${execi 30 sensors | grep 'Core 3:' | cut -c17-18}°C${color}  @  ${cpu cpu4} % $alignr ${color}${cpubar 6, 155 cpu4}${color}
+Core 4   ${color1}${execi 30 sensors | grep 'Core 0:' | cut -c17-18}°C${color}  @  ${cpu cpu5} % $alignr ${color}${cpubar 6, 155 cpu5}${color}
+Core 5   ${color1}${execi 30 sensors | grep 'Core 1:' | cut -c17-18}°C${color}  @  ${cpu cpu6} % $alignr ${color}${cpubar 6, 155 cpu6}${color}
+Core 6   ${color1}${execi 30 sensors | grep 'Core 2:' | cut -c17-18}°C${color}  @  ${cpu cpu7} % $alignr ${color}${cpubar 6, 155 cpu7}${color}
+Core 7   ${color1}${execi 30 sensors | grep 'Core 3:' | cut -c17-18}°C${color}  @  ${cpu cpu8} % $alignr ${color}${cpubar 6, 155 cpu8}${color}
+
+Usage:  ${color}${cpu cpu0}%${color} ${alignr}${color}${cpubar cpu0 6,155}${color} ${alignr}${font}
+
+${color2}${font Cantarell:size=12}Top Processes:${goto 222}cpu %${goto 274}mem%${color}
+${voffset 4}     1  -  ${top name 1}${alignr}${goto 170} ${goto 222}${top cpu 1} ${goto 274}${top mem 1}
+     2  -  ${top name 2}${alignr} ${goto 222}${top cpu 2} ${goto 274}${top mem 2}
+     3  -  ${top name 3}${alignr} ${goto 222}${top cpu 3} ${goto 274}${top mem 3}
+     4  -  ${top name 4}${alignr} ${goto 222}${top cpu 4} ${goto 274}${top mem 4}
+     5  -  ${top name 5}${alignr} ${goto 222}${top cpu 5} ${goto 274}${top mem 5}${font}
+
+${color5}${font Cantarell:size=14}M E M O R Y   ${hr 2}${font}${color}
+
+${color}${font StyleBats:size=20}m${font}${color}${offset 8}${voffset -12}${color2}${font Cantarell:size=12}RAM: ${color}${alignr}${offset 0}${mem} / ${memmax}${alignr}${membar 8, 100}
+${color2}${offset 30}Swap:${color} ${alignr}${offset 0}${swap} / ${swapmax}${alignr}${swapbar 8, 100}${font}
+
+${color5}${font Cantarell:size=14}D R I V E S   ${hr 2}${font}${color}
+
+${color}${font StyleBats:size=20}e${font}${color}${offset 8}${voffset -12}${color2}${font Cantarell:size=12}Root:  ${color} ${alignr}${offset -10}${fs_used /} / ${fs_size /}${alignr}${fs_bar 8, 100}
+${offset 30}${color2}I/O Read:${color} ${alignr}${offset -10}${diskio_read /dev/sda1}${alignr}${diskiograph_read sda1 8,100}
+${offset 30}${color2}I/O Write:${color} ${alignr}${offset -10}${diskio_write /dev/sda1}${alignr}${diskiograph_write sda1 8,100}${font}
+
+${color5}${color5}${font Cantarell:size=14}N E T W O R K   ${hr 2}${font}${color}
+
+${color}${font StyleBats:size=20}q${font}${color}${offset 8}${voffset -12}${color2}${font Cantarell:size=12}Eth Up:${color} ${alignr}${offset -10$}${upspeed wlp0s20f3}${alignr}${upspeedgraph wlp0s20f3 8,100}
+${color2}${offset 30}Eth Down:${color} ${alignr}${offset -10$}${downspeed wlp0s20f3}${alignr}${downspeedgraph wlp0s20f3 8,100}${font}
+
+${voffset -70}
+
+]];
